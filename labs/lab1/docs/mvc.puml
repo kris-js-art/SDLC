@@ -1,0 +1,41 @@
+@startuml
+title Генератор оправданий — MVC с активной моделью
+
+package model {
+  enum Situation
+  class ExcuseInput <<record>>
+  class ExcuseState <<record>>
+  class ValidationException
+  class ExcuseModel {
+    +saveInput(situation)
+    +generateExcuse()
+    +addPropertyChangeListener(...)
+  }
+}
+
+package view {
+  class MainView
+  class InputDialog
+}
+
+package controller {
+  class ExcuseController
+}
+
+class App
+interface PropertyChangeListener
+
+App --> ExcuseModel
+App --> MainView
+App --> ExcuseController
+ExcuseController --> ExcuseModel
+ExcuseController --> MainView
+ExcuseController ..> InputDialog
+ExcuseModel --> ExcuseState
+ExcuseState o-- ExcuseInput
+ExcuseInput --> Situation
+ExcuseModel ..> ValidationException
+MainView ..|> PropertyChangeListener
+ExcuseModel ..> PropertyChangeListener : уведомляет
+
+@enduml
